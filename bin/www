@@ -3,14 +3,14 @@
  * Module dependencies.
  */
 // A tool to find an open port or domain socket on the machine
-var portfinder = require('portfinder');
-var cluster = require('cluster');
+let portfinder = require('portfinder');
+let cluster = require('cluster');
 // comment below line to start cluster with maximum workers
-var workers = 1;
+let workers = 1;
 // uncomment below line to start cluster with maximum workers
-// var workers = process.env.WORKERS || require('os').cpus().length;
-var port = 3000;
-var portSpan = 999;
+// let workers = process.env.WORKERS || require('os').cpus().length;
+let port = 3000;
+let portSpan = 999;
 
 if (cluster.isMaster) {
   portfinder.getPort({
@@ -22,8 +22,8 @@ if (cluster.isMaster) {
     process.env['PORT'] = openPort;
     console.log('Server will start on port ' + port);
     console.log('Master cluster is running on %s with %s workers', process.pid, workers);
-    for (var i = 0; i < workers; ++i) {
-      var worker = cluster.fork().process;
+    for (let i = 0; i < workers; ++i) {
+      let worker = cluster.fork().process;
       console.log('worker %s on %s started', i+1, worker.pid);
     }
     cluster.on('exit', function(worker, code, signal) {
@@ -34,11 +34,11 @@ if (cluster.isMaster) {
 }
 
 if (cluster.isWorker) {
-  var app = require('../app');
-  var debug = require('debug')('node-express-redis-project:server');
-  var http = require('http');
-  var ON_DEATH = require('death');
-  var db = require('../dbconfig');
+  let app = require('../app');
+  let debug = require('debug')('node-express-redis-project:server');
+  let http = require('http');
+  let ON_DEATH = require('death');
+  let db = require('../dbconfig');
   /**
    * Get port from environment and store in Express.
    */
@@ -47,7 +47,7 @@ if (cluster.isWorker) {
   /**
    * Create HTTP server.
    */
-  var server = http.createServer(app);
+  let server = http.createServer(app);
   /**
    * Listen on provided port, on all network interfaces.
    */
@@ -58,7 +58,7 @@ if (cluster.isWorker) {
    * Normalize a port into a number, string, or false.
    */
   function normalizePort(val) {
-    var port = parseInt(val, 10);
+    let port = parseInt(val, 10);
     if (isNaN(port)) {
       // named pipe
       return val;
@@ -76,7 +76,7 @@ if (cluster.isWorker) {
     if (error.syscall !== 'listen') {
       throw error;
     }
-    var bind = typeof port === 'string'
+    let bind = typeof port === 'string'
       ? 'Pipe ' + port
       : 'Port ' + port;
     // handle specific listen errors with friendly messages
@@ -97,8 +97,8 @@ if (cluster.isWorker) {
    * Event listener for HTTP server "listening" event.
    */
   function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
+    let addr = server.address();
+    let bind = typeof addr === 'string'
       ? 'pipe ' + addr
       : 'port ' + addr.port;
     debug('Listening on ' + bind);

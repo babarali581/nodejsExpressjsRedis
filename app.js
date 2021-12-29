@@ -1,24 +1,24 @@
-var toobusy = require('node-toobusy');
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var hbs = require('express-handlebars');
-var logger = require('morgan');
-var loggerutil = require('./utilities/logger');
-var datalogger = require('./utilities/datalogger');
-var fs = require('fs');
-var rfs = require('rotating-file-stream');
-var helmet = require('helmet');
-var compression = require('compression');
-var db = require('./dbconfig');
+const toobusy = require('node-toobusy');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const hbs = require('express-handlebars');
+const logger = require('morgan');
+const loggerutil = require('./utilities/logger');
+const datalogger = require('./utilities/datalogger');
+const fs = require('fs');
+const rfs = require('rotating-file-stream');
+const helmet = require('helmet');
+const compression = require('compression');
+const db = require('./dbconfig');
 
 // Defining routes
-var routes = require('./routes');
+const routes = require('./routes');
 
 // Generating an express app
-var app = express();
+const app = express();
 
 // Express Status Monitor for monitoring server status
 app.use(require('express-status-monitor')({
@@ -65,7 +65,7 @@ app.use(function(req, res, next) {
 });
 
 // Linking log folder and ensure directory exists
-var logDirectory = path.join(__dirname, 'log');
+const logDirectory = path.join(__dirname, 'log');
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 fs.appendFile('./log/ServerData.log', '', function (err) {
   if (err) throw err;
@@ -81,7 +81,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // Create a rotating write stream
-var accessLogStream = rfs.createStream('Server.log', {
+const accessLogStream = rfs.createStream('Server.log', {
     size: "10M", // rotate every 10 MegaBytes written
     interval: '1d', // rotate daily
     compress: "gzip", // compress rotated files
@@ -110,7 +110,7 @@ app.use(logger(':remote-addr :remote-user :datetime :req[header] :method :url HT
 // uncomment to redirect global console object to log file
 // datalogger.logfile();
 
-// Helmet helps for securing Express apps by setting various HTTP headers
+// Helmet helps for securing Express apps by setting constious HTTP headers
 app.use(helmet());
 
 app.use(bodyParser.json());
@@ -125,7 +125,7 @@ app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

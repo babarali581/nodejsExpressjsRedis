@@ -40,9 +40,9 @@ $ nodemon bin/www
 Node PortFinder is a tool to find an open port or domain socket on the machine.
 
 ```js
-var portfinder = require('portfinder');
-var port = 3000;
-var portSpan = 999;
+let portfinder = require('portfinder');
+let port = 3000;
+let portSpan = 999;
 portfinder.getPort({
   port: port,    // minimum port number
   stopPort: port + portSpan // maximum port number
@@ -57,13 +57,13 @@ portfinder.getPort({
 Node.js runs in a single process, by default. Ideally, we want one process for each CPU core, so we can distribute the workload across all the cores. Hence improving the scalability of web apps handling HTTP requests and performance in general. In addition to this, if one worker crashes, the others are still available to handle requests.
 
 ```js
-var cluster = require('cluster');
-var workers = process.env.WORKERS || require('os').cpus().length;
+let cluster = require('cluster');
+let workers = process.env.WORKERS || require('os').cpus().length;
 
 if (cluster.isMaster) {
   console.log('Master cluster is running on %s with %s workers', process.pid, workers);
-  for (var i = 0; i < workers; ++i) {
-    var worker = cluster.fork().process;
+  for (let i = 0; i < workers; ++i) {
+    let worker = cluster.fork().process;
     console.log('worker %s on %s started', i+1, worker.pid);
   }
   cluster.on('exit', function(worker, code, signal) {
@@ -82,7 +82,7 @@ if (cluster.isWorker) {
 Morgan - HTTP request logger middleware for node.js:
 
 ```js
-var logger = require('morgan');
+let logger = require('morgan');
 app.use(logger('dev'));
 app.use(logger(':remote-addr :remote-user :datetime :req[header] :method :url HTTP/:http-version :status :res[content-length] :res[header] :response-time[digits] :referrer :user-agent', {
     stream: accessLogStream
@@ -92,8 +92,8 @@ app.use(logger(':remote-addr :remote-user :datetime :req[header] :method :url HT
 Winston - is designed to be a simple and universal logging library with support for multiple transports:
 
 ```js
-var winston = require('winston');
-var logger = winston.createLogger({
+let winston = require('winston');
+let logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.colorize({
         all: true
@@ -119,8 +119,8 @@ var logger = winston.createLogger({
 To provide an automated rotation of Express/Connect logs or anything else that writes to a log on a regular basis that needs to be rotated based on date.
 
 ```js
-var rfs    = require('rotating-file-stream');
-var accessLogStream = rfs('file.log', {
+let rfs    = require('rotating-file-stream');
+let accessLogStream = rfs('file.log', {
     size:     '10M', // rotate every 10 MegaBytes written
     interval: '1d', // rotate daily
     compress: 'gzip' // compress rotated files
@@ -132,8 +132,8 @@ var accessLogStream = rfs('file.log', {
 This is a complete and feature rich Redis client for node.js. It supports all Redis commands and focuses on high performance.
 
 ```js
-var redis = require('redis');
-var client = redis.createClient({
+let redis = require('redis');
+let client = redis.createClient({
   port      : '6379', // The port number to connect to.
   host      : '127.0.0.1', // The hostname of the database you are connecting to.
   // password  : 'redispassword', // The password for redis database.
